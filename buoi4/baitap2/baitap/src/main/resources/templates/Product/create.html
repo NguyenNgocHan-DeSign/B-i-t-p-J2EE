@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+<head>
+    <title>Tạo sản phẩm mới</title>
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <h2>Create New Product</h2>
+
+        <form th:action="@{/products/create}" th:object="${product}" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" th:field="*{name}">
+
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label>Price</label>
+                <input type="number" class="form-control" th:field="*{price}">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label>Image</label>
+                <input type="file" class="form-control" name="imageProduct">
+            </div>
+
+            <button type="submit" class="btn btn-success">Add Product</button>
+        </form>
+    </section>
+</body>
+
+</html>

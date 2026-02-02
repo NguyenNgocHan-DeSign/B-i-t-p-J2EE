@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
+<head>
+    <title>Danh sách sản phẩm</title>
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>📦 Danh Sách Sản Phẩm</h2>
+            <a th:href="@{/products/create}" class="btn btn-primary">Thêm sản phẩm mới</a>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Giá</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${listproduct}">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td>
+                        <img th:if="${product.image != null && product.image != ''}"
+                            th:src="@{'/images/' + ${product.image}}" alt="Product Image"
+                            style="width: 100px; height: 100px; object-fit: cover;">
+                        <span th:unless="${product.image != null && product.image != ''}">Không có ảnh</span>
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                    <td>
+                        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                        <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${#lists.isEmpty(listproduct)}" class="alert alert-info">
+            Chưa có sản phẩm nào. Hãy thêm sản phẩm mới!
+        </div>
+    </section>
+</body>
+
+</html>
